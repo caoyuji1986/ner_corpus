@@ -15,9 +15,9 @@ class Renmin:
     self._file_name = file_name
     
   def process(self, rate1, rate2):
-    fpw_test = open('dat/renmin_ribaothe_people_daily/test.bio.txt', 'w')
-    fpw_train = open('dat/renmin_ribaothe_people_daily/train.bio.txt', 'w')
-    fpw_dev = open('dat/renmin_ribaothe_people_daily/dev.bio.txt', 'w')
+    fpw_test = open('dat/the_poeple_daily/test.bio.txt', 'w')
+    fpw_train = open('dat/the_poeple_daily/train.bio.txt', 'w')
+    fpw_dev = open('dat/the_poeple_daily/dev.bio.txt', 'w')
     with open(self._file_name, 'r') as fp:
       line_org = list()
       for line in fp:
