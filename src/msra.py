@@ -1,4 +1,12 @@
 import random
+import tensorflow as tf
+
+flags = tf.flags
+FLAGS = tf.flags.FLAGS
+
+flags.DEFINE_string(name='src_file', default=None, help='input file')
+flags.DEFINE_integer(name='dev_rate', default=None, help='dev rate')
+flags.DEFINE_integer(name='test_rate', default=None, help='test rate')
 
 class Msra:
   
@@ -56,8 +64,19 @@ class Msra:
     fpw_dev.close()
     fpw_test.close()
     
-        
+def main(_):
+  src_file = FLAGS.src_file
+  msra = Msra(file_name=src_file)
+  test_rate = FLAGS.test_rate
+  dev_rate = FLAGS.dev_rate
+  msra.process(rate1=test_rate, rate2=test_rate + dev_rate)
+  
+
 if __name__=='''__main__''':
   
-  msra = Msra("./dat/msra/train.txt")
-  msra.process(5, 10)
+  flags.mark_flag_as_required('src_file')
+  flags.mark_flag_as_required('test_rate')
+  flags.mark_flag_as_required('dev_rate')
+  
+  tf.app.run()
+

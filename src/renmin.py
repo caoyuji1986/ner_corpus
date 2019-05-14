@@ -1,4 +1,12 @@
 import random
+import tensorflow as tf
+
+flags = tf.flags
+FLAGS = tf.flags.FLAGS
+
+flags.DEFINE_string(name='src_file', default=None, help='input file')
+flags.DEFINE_integer(name='dev_rate', default=None, help='dev rate')
+flags.DEFINE_integer(name='test_rate', default=None, help='test rate')
 
 class Renmin:
   
@@ -33,8 +41,20 @@ class Renmin:
     fpw_test.close()
     fpw_train.close()
     fpw_dev.close()
+    
+def main(_):
+  
+  src_file = FLAGS.src_file
+  renmin = Renmin(file_name=src_file)
+  test_rate = FLAGS.test_rate
+  dev_rate = FLAGS.dev_rate
+  
+  renmin.process(test_rate, test_rate + dev_rate)
 
 if __name__=='''__main__''':
   
-  renmin = Renmin("dat/renmin_ribaothe_people_daily/train.txt")
-  renmin.process(5,10)
+  flags.mark_flag_as_required('src_file')
+  flags.mark_flag_as_required('test_rate')
+  flags.mark_flag_as_required('dev_rate')
+  
+  tf.app.run()
