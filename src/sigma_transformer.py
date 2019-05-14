@@ -22,13 +22,18 @@ class SigmaTransformer:
     for i in range(len(lines)):
       try:
         line = lines[i].strip()
-        is_next_O_tag = False
+        is_next_Begin_tag = False
         if (i + 1) == len(lines):
-          is_next_O_tag = True
+          is_next_Begin_tag = True
         else:
           next_line = lines[i + 1].strip()
-          if len(next_line) and 'O' == next_line.split()[1]:
-            is_next_O_tag = True
+          if len(next_line) \
+                  and (
+                    'O' == next_line.split()[1]
+                    or next_line.split()[1].startswith("B")
+                    or next_line.split()[1].startswith("S")
+                  ):
+            is_next_Begin_tag = True
     
         items = line.split()
         if len(items) != 2:
@@ -36,12 +41,12 @@ class SigmaTransformer:
           continue
         items_new = list()
         if items[1].find('B') == 0:
-          if not is_next_O_tag:
+          if not is_next_Begin_tag:
             items_new.extend(items)
           else:
             items_new.extend([items[0], '-'.join(['S', items[1].split('-')[1]])])
         elif items[1].find('I') == 0:
-          if not is_next_O_tag:
+          if not is_next_Begin_tag:
             items_new.extend([items[0], '-'.join(['M', items[1].split('-')[1]])])
           else:
             items_new.extend([items[0], '-'.join(['E', items[1].split('-')[1]])])
