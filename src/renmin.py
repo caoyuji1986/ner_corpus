@@ -32,7 +32,9 @@ class Renmin:
             fpw = fpw_dev
           else:
             fpw = fpw_train
-          for item in line_org:
+          ll = len(line_org)
+          ll = min(128, ll)
+          for item in line_org[:ll]:
             fpw.write(item + '\n')
           fpw.write('\n')
           line_org = list()
